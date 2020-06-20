@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <canvas id="MeinCanvas"></canvas>
+    <canvas id="MeinCanvas"style="border: 2px dotted red;"></canvas>
     <script>
         document.body.style.overflow = 'hidden';
 
@@ -25,11 +25,18 @@
         var timer;
 
         var canv = document.getElementById("MeinCanvas");
-        canv.width = document.documentElement.clientWidth;
-        canv.height = document.documentElement.clientHeight;
+        canv.width = document.documentElement.clientWidth - 20;
+        canv.height = document.documentElement.clientHeight - 20;
         var WIDTH = document.documentElement.clientWidth;
         var HEIGHT = document.documentElement.clientHeight;
-
+        var farbverlauf = context.createLinearGradient(0, 0, canv.width, 0);
+        farbverlauf.addColorStop("0", "magenta");
+        farbverlauf.addColorStop("0.2", "blue");
+        farbverlauf.addColorStop("0.4", "red");
+        farbverlauf.addColorStop("0.6", "orange");
+        farbverlauf.addColorStop("0.8", "yellow");
+        farbverlauf.addColorStop("1.0", "green");
+        
 
         function init() {
 
@@ -37,10 +44,10 @@
                 console.log(event);
                 console.log(event.key);
                 if (event.key == 'ArrowLeft' & padlx > 0) {
-                    padlx = padlx - 5;
+                    padlx = padlx - 10;
                 }
                 if (event.key == 'ArrowRight' & padlx + 150 < WIDTH) {
-                    padlx = padlx + 5;
+                    padlx = padlx + 10;
                 }
                 if (event.key == 'Enter') {
                     timer = setInterval(draw, 5);
@@ -60,7 +67,7 @@
         }
 
         function ball(x, y, r) {
-            context.fillStyle = "#00A3B1";
+            context.fillStyle = farbverlauf;
             context.beginPath();
             context.arc(x, y, r, 0, Math.PI * 2, true);
             context.closePath();
@@ -68,13 +75,13 @@
         }
 
         function padl(x) {
-            context.fillStyle = "#B1A308";
-            context.fillRect(x, HEIGHT - 100, WIDTH / 3, 20);
+            context.fillStyle = "darkred";
+            context.fillRect(x, HEIGHT - 50, WIDTH / 5, 20);
 
         }
 
         function clear() {
-            context.fillStyle = "lightgrey";
+            context.fillStyle = "#FFF8DC";
             context.fillRect(0, 0, WIDTH, HEIGHT);
         }
 
@@ -94,14 +101,17 @@
             if (y > HEIGHT - (R + 1)) {
 
                 var ausgabe = "GAME OVER, SCORE: " + counter;
-                context.font = "25px Arial";
-                context.fillText(ausgabe, 10, 50);
+                context.fillStyle = farbverlauf;
+                context.font = "5em Arial";
+                context.textAlign = "center";
+                context.textBaseline = "middle";
+                context.fillText(ausgabe,canv.width / 2, canv.height / 2);
                 clearInterval(timer);
                 timer = 0; //zur Sicherheit auch noch null setzten
                 counter = 0;
             }
 
-            if (y > (HEIGHT - 100 - 20 + R) & x > padlx & x < padlx + WIDTH / 3) {
+            if (y > (HEIGHT - 50 - 20 + R) & x > padlx & x < padlx + WIDTH / 5) {
                 dy = -dy;
                 counter++;
                 console.log(counter);
