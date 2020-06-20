@@ -46,26 +46,14 @@
                     timer = setInterval(draw, 5);
 
                 }
-
-
             });
             
-            <div>Beschleunigung (x, y, z) = (<span id="accel-x"></span>,<span id="accel-y"></span>,<span id="accel-z"></span>)</div>
-<p></p>
-<div>Neigung (x, y, z) = (<span id="neigung-x"></span>,<span id="neigung-y"></span>,<span id="neigung-z"></span>)</div>
-<p></p>
-<div>Kompass (alpha, beta, gamma) = (<span id="orientation-a"></span>,<span id="orientation-b"></span>,<span id="orientation-g"></span>)</div>
-<script>
-//https://www.javascript-kurs.de/javascript-sonsoren-handy-tablet-lagesensor.htm
-//https://marmelab.com/blog/2020/02/05/getting-the-ball-rolling-with-devicemotion.html
-  window.addEventListener('devicemotion', function(event) {
-  var xacceleration = Math.round(event.acceleration.x*10)/10;
-  document.getElementById("accel-x").innerHTML = xacceleration;
-  
-  var xacceleration = Math.round(event.accelerationIncludingGravity.x*10)/10;
-  document.getElementById("accel-x").innerHTML = xacceleration;   
-    
-});
+            window.addEventListener('devicemotion', function(event){
+                var xacceleration = Math.round(event.acceleration.x*10)/10;
+                var xneigung = Math.round(event.accelerationIncludingGravity.x*10)/10;
+                padlx = padlx - xneigung;
+
+            });
             timer = setInterval(draw, 5);
             draw();
 
